@@ -28,6 +28,10 @@ class MainFragment : Fragment() {
 
         binding.viewModel = viewModel
 
+        val adapter = AsteroidsListAdapter(AsteroidsListAdapter.AsteroidItemOnClickListener{
+
+        })
+
         setHasOptionsMenu(true)
 
         return binding.root
@@ -41,6 +45,7 @@ class MainFragment : Fragment() {
 
     @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
         return true
     }
 }

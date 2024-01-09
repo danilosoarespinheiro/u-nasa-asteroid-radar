@@ -1,6 +1,7 @@
 package com.udacity.asteroidradar.api
 
-import com.udacity.asteroidradar.Asteroid
+import android.annotation.SuppressLint
+import com.udacity.asteroidradar.domain.Asteroid
 import com.udacity.asteroidradar.Constants
 import org.json.JSONObject
 import java.text.SimpleDateFormat
@@ -44,6 +45,7 @@ fun parseAsteroidsJsonResult(jsonResult: JSONObject): ArrayList<Asteroid> {
     return asteroidList
 }
 
+@SuppressLint("WeekBasedYear")
 private fun getNextSevenDaysFormattedDates(): ArrayList<String> {
     val formattedDateList = ArrayList<String>()
 
