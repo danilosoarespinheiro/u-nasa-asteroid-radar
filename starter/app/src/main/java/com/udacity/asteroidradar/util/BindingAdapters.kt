@@ -1,25 +1,20 @@
-package com.udacity.asteroidradar
+package com.udacity.asteroidradar.util
 
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.udacity.asteroidradar.R
 
 @BindingAdapter("statusIcon")
 fun bindAsteroidStatusImage(imageView: ImageView, isHazardous: Boolean) {
-    if (isHazardous) {
-        imageView.setImageResource(R.drawable.ic_status_potentially_hazardous)
-    } else {
-        imageView.setImageResource(R.drawable.ic_status_normal)
-    }
+    if (isHazardous) imageView.setImageResource(R.drawable.ic_status_potentially_hazardous)
+    else imageView.setImageResource(R.drawable.ic_status_normal)
 }
 
 @BindingAdapter("asteroidStatusImage")
 fun bindDetailsStatusImage(imageView: ImageView, isHazardous: Boolean) {
-    if (isHazardous) {
-        imageView.setImageResource(R.drawable.asteroid_hazardous)
-    } else {
-        imageView.setImageResource(R.drawable.asteroid_safe)
-    }
+    if (isHazardous) imageView.setImageResource(R.drawable.asteroid_hazardous)
+    else imageView.setImageResource(R.drawable.asteroid_safe)
 }
 
 @BindingAdapter("astronomicalUnitText")
