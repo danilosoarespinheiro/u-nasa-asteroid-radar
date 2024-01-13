@@ -1,54 +1,74 @@
 package com.udacity.asteroidradar.main
 
+import android.annotation.SuppressLint
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
+import androidx.annotation.RequiresApi
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.udacity.asteroidradar.domain.Asteroid
+import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.ItemAsteroidBinding
+import com.udacity.asteroidradar.domain.Asteroid
+import java.time.LocalDate
 
-class AsteroidsListAdapter(private val itemClickListener: AsteroidItemOnClickListener) :
-    ListAdapter<Asteroid, AsteroidsListAdapter.AsteroidsViewHolder>(AsteroidsViewHolder.DiffCallback()) {
+class AsteroidsListAdapter : RecyclerView.Adapter<AsteroidsListAdapter.AsteroidViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AsteroidsViewHolder {
-        return AsteroidsViewHolder(
-            ItemAsteroidBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        )
+    var asteroids: List<Asteroid> = listOf()
+    private var asteroidsList: List<Asteroid> = listOf()
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AsteroidViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ItemAsteroidBinding.inflate(inflater, parent, false)
+        return AsteroidViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: AsteroidsViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.itemView.setOnClickListener {
-            itemClickListener.onClick(item)
+    override fun onBindViewHolder(holder: AsteroidViewHolder, position: Int) {
+        val asteroid = asteroids[position]
+        holder.bind(asteroid)
+    }
+
+    override fun getItemCount(): Int = asteroids.size
+
+    @SuppressLint("NotifyDataSetChanged")
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun updateAsteroids(asteroids: List<Asteroid>) {
+        this.asteroids = asteroids
+        notifyDataSetChanged()
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getTodayAsteroids(asteroidsList: List<Asteroid>): List<Asteroid> {
+        val today = LocalDate.now()
+        return asteroidsList.filter { asteroid ->
+            LocalDate.parse(asteroid.closeApproachDate) == today
         }
-        holder.bind(item)
     }
 
-    class AsteroidsViewHolder(private val binding: ItemAsteroidBinding) :
+    inner class AsteroidViewHolder(private val binding: ItemAsteroidBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Asteroid) {
-            binding.asteroid = item
-            binding.executePendingBindings()
-        }
-
-        class DiffCallback : DiffUtil.ItemCallback<Asteroid>() {
-            override fun areItemsTheSame(oldItem: Asteroid, newItem: Asteroid): Boolean {
-                return oldItem.id == newItem.id
-            }
-
-            override fun areContentsTheSame(oldItem: Asteroid, newItem: Asteroid): Boolean {
-                return oldItem == newItem
+        init {
+            binding.root.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val action = MainFragmentDirections.actionShowDetail(asteroids[position])
+                    binding.root.findNavController().navigate(action)
+                }
             }
         }
-    }
 
-    class AsteroidItemOnClickListener(val clickListener: (asteroid: Asteroid) -> Unit) {
-        fun onClick(asteroid: Asteroid) = clickListener(asteroid)
+        fun bind(asteroid: Asteroid) {
+            binding.tvName.text = asteroid.codeName
+            binding.tvDate.text = asteroid.closeApproachDate
+            if (asteroid.isPotentiallyHazardous) {
+                binding.tvStatus.setImageResource(R.drawable.ic_status_potentially_hazardous)
+                binding.tvStatus.contentDescription = "Icon is Potentially hazardous"
+            } else {
+                binding.tvStatus.setImageResource(R.drawable.ic_status_normal)
+                binding.tvStatus.contentDescription = "Icon is not hazardous"
+            }
+        }
     }
 }
