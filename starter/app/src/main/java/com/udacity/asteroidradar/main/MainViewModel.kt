@@ -19,7 +19,6 @@ class MainViewModel(application: android.app.Application) : AndroidViewModel(app
     private val database = AsteroidsDatabase.getDatabaseInstance(application)
     private val repository = AsteroidRepository(database)
     private val _pictureOfTheDay = MutableLiveData<PictureOfDay>()
-    private val fromListToItemDetail = MutableLiveData<Asteroid?>()
 
     val asteroids = repository.asteroids
     val pictureOfTheDay: LiveData<PictureOfDay> get() = _pictureOfTheDay

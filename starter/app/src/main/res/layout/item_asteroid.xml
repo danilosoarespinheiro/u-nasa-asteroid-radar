@@ -13,7 +13,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="12dp">
+        android:paddingTop="@dimen/medium_padding"
+        android:paddingBottom="@dimen/medium_padding"
+        android:paddingEnd="@dimen/small_padding"
+        tool:ignore="RtlSymmetry">
 
         <TextView
             android:id="@+id/tv_name"

@@ -20,19 +20,15 @@ class DateUtil {
 
         @SuppressLint("WeekBasedYear")
         private fun getDay(time: Long): String =
-            SimpleDateFormat(Constants.API_QUERY_DATE_FORMAT, Locale.getDefault()).format(
-                time
-            )
+            SimpleDateFormat(Constants.API_QUERY_DATE_FORMAT,
+                Locale.getDefault()).format(time)
 
         fun getTodayDate(): String {
-            val currentTime = System.currentTimeMillis()
-            return getDay(currentTime)
+            return getDay(System.currentTimeMillis())
         }
 
         fun getDaysTo(days: Long): String {
-            val diffDaysTo = TimeUnit.DAYS.toMillis(days)
-            val time = System.currentTimeMillis() + diffDaysTo
-            return getDay(time)
+            return getDay(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(days))
         }
     }
 }
