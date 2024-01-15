@@ -20,21 +20,16 @@ interface ApiService {
     ): String
 
     @GET("planetary/apod")
-    suspend fun getPictureOfTheDay(
-        @Query("api_key") apiKey: String = API_KEY
-    ): PictureOfDay
+    suspend fun getPictureOfTheDay(@Query("api_key") apiKey: String = API_KEY): PictureOfDay
 
     object Network {
         private val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-
         private val retrofit = Retrofit.Builder()
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .baseUrl(BASE_URL).build()
 
-        val service: ApiService by lazy {
-            retrofit.create(ApiService::class.java)
-        }
+        val service: ApiService by lazy { retrofit.create(ApiService::class.java) }
 
         suspend fun getPictureOfTheDay() = service.getPictureOfTheDay(API_KEY)
     }

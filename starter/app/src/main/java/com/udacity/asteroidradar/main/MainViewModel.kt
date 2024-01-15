@@ -24,24 +24,21 @@ class MainViewModel(application: android.app.Application) : AndroidViewModel(app
     val asteroids = repository.asteroids
     val pictureOfTheDay: LiveData<PictureOfDay> get() = _pictureOfTheDay
 
+    companion object {
+        private const val PICTURE_OF_THE_DAY_TAG_ERROR = "PictureOfTheDayError"
+        private const val REFRESH_ASTEROIDS_TAG_ERROR = "RefreshAsteroidsError"
+    }
+
     init {
         refreshAsteroids()
         getPictureOfTheDay()
-    }
-
-    fun fromListToItemDetail(item: Asteroid) {
-        fromListToItemDetail.value = item
-    }
-
-    fun cancelFromListToItemDetail() {
-        fromListToItemDetail.value = null
     }
 
     private fun getPictureOfTheDay() = viewModelScope.launch(Dispatchers.Main) {
         try {
             _pictureOfTheDay.value = repository.getPictureOfDay()
         } catch (exception: Exception) {
-            Log.e("PictureOfTheDayError", exception.stackTraceToString())
+            Log.e(PICTURE_OF_THE_DAY_TAG_ERROR, exception.stackTraceToString())
         }
     }
 
@@ -49,7 +46,7 @@ class MainViewModel(application: android.app.Application) : AndroidViewModel(app
         try {
             repository.refreshAsteroids()
         } catch (exception: Exception) {
-            Log.e("RefreshAsteroidsError", exception.stackTraceToString())
+            Log.e(REFRESH_ASTEROIDS_TAG_ERROR, exception.stackTraceToString())
         }
     }
 
