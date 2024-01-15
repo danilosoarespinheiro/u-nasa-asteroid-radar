@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.ItemAsteroidBinding
 import com.udacity.asteroidradar.domain.Asteroid
 import java.time.LocalDate
 
+@SuppressLint("NotifyDataSetChanged")
 class AsteroidsListAdapter : RecyclerView.Adapter<AsteroidsListAdapter.AsteroidViewHolder>() {
 
     var asteroids: List<Asteroid> = listOf()
@@ -30,7 +30,6 @@ class AsteroidsListAdapter : RecyclerView.Adapter<AsteroidsListAdapter.AsteroidV
 
     override fun getItemCount(): Int = asteroids.size
 
-    @SuppressLint("NotifyDataSetChanged")
     @RequiresApi(Build.VERSION_CODES.O)
     fun updateAsteroids(asteroids: List<Asteroid>) {
         this.asteroids = asteroids
@@ -39,11 +38,14 @@ class AsteroidsListAdapter : RecyclerView.Adapter<AsteroidsListAdapter.AsteroidV
 
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getTodayAsteroids(asteroidsList: List<Asteroid>): List<Asteroid> {
+
+    fun getTodayAsteroids(asteroidsList: List<Asteroid>) {
         val today = LocalDate.now()
-        return asteroidsList.filter { asteroid ->
+        asteroidsList.filter { asteroid ->
             LocalDate.parse(asteroid.closeApproachDate) == today
         }
+        this.asteroids = asteroidsList
+        notifyDataSetChanged()
     }
 
     inner class AsteroidViewHolder(private val binding: ItemAsteroidBinding) :
@@ -60,15 +62,9 @@ class AsteroidsListAdapter : RecyclerView.Adapter<AsteroidsListAdapter.AsteroidV
         }
 
         fun bind(asteroid: Asteroid) {
+            binding.asteroid = asteroid
             binding.tvName.text = asteroid.codeName
             binding.tvDate.text = asteroid.closeApproachDate
-            if (asteroid.isPotentiallyHazardous) {
-                binding.tvStatus.setImageResource(R.drawable.ic_status_potentially_hazardous)
-                binding.tvStatus.contentDescription = "Icon is Potentially hazardous"
-            } else {
-                binding.tvStatus.setImageResource(R.drawable.ic_status_normal)
-                binding.tvStatus.contentDescription = "Icon is not hazardous"
-            }
         }
     }
 }

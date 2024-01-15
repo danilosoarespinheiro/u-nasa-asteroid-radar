@@ -35,7 +35,7 @@ class MainFragment : Fragment() {
         val adapter = AsteroidsListAdapter()
         binding.asteroidRecycler.adapter = adapter
 
-        viewModel.asteroids.observe(viewLifecycleOwner) { adapter.updateAsteroids(it) }
+        viewModel.asteroids.observe(viewLifecycleOwner) { adapter.getTodayAsteroids(it) }
 
         viewModel.pictureOfTheDay.observe(viewLifecycleOwner) {
             it?.let {
