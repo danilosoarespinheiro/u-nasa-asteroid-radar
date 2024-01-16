@@ -15,7 +15,6 @@ import java.time.LocalDate
 class AsteroidsListAdapter : RecyclerView.Adapter<AsteroidsListAdapter.AsteroidViewHolder>() {
 
     var asteroids: List<Asteroid> = listOf()
-    private var asteroidsList: List<Asteroid> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AsteroidViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -31,18 +30,9 @@ class AsteroidsListAdapter : RecyclerView.Adapter<AsteroidsListAdapter.AsteroidV
     override fun getItemCount(): Int = asteroids.size
 
 
-    private fun updateAsteroids(asteroids: List<Asteroid>) {
+    fun updateAsteroids(asteroids: List<Asteroid>) {
         this.asteroids = asteroids
         notifyDataSetChanged()
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun getTodayAsteroids(asteroidsList: List<Asteroid>) {
-        val today = LocalDate.now()
-        asteroidsList.filter { asteroid ->
-            LocalDate.parse(asteroid.closeApproachDate) == today
-        }
-        updateAsteroids(asteroidsList)
     }
 
     inner class AsteroidViewHolder(private val binding: ItemAsteroidBinding) :

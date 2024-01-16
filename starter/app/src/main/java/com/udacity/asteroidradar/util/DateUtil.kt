@@ -7,10 +7,6 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
-enum class AsteroidApiFilter(val value: String) {
-    SHOW_TODAY("Today"), SHOW_WEEK("Week"), SHOW_SAVED("Saved")
-}
-
 enum class Filter(val startDate: String, val endDate: String) {
     TODAY(DateUtil.getTodayDate(), DateUtil.getTodayDate()),
     WEEK(DateUtil.getTodayDate(), DateUtil.getDaysTo(DEFAULT_END_DATE_DAYS.toLong()))

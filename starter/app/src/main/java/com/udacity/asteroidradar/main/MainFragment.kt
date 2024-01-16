@@ -3,12 +3,18 @@ package com.udacity.asteroidradar.main
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import com.squareup.picasso.Picasso
+import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
 
 class MainFragment : Fragment() {
@@ -31,11 +37,11 @@ class MainFragment : Fragment() {
         binding = FragmentMainBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-
+        addMenu()
         val adapter = AsteroidsListAdapter()
         binding.asteroidRecycler.adapter = adapter
 
-        viewModel.asteroids.observe(viewLifecycleOwner) { adapter.getTodayAsteroids(it) }
+        viewModel.asteroids.observe(viewLifecycleOwner) { adapter.updateAsteroids(it) }
 
         viewModel.pictureOfTheDay.observe(viewLifecycleOwner) {
             it?.let {
@@ -46,5 +52,23 @@ class MainFragment : Fragment() {
             }
         }
         return binding.root
+    }
+
+    private fun addMenu() {
+        requireActivity().addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menu.clear()
+                menuInflater.inflate(R.menu.main_overflow_menu, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                when (menuItem.itemId) {
+//                    R.id.show_saved_menu ->
+//                    R.id.show_today_menu ->
+//                    R.id.show_week_menu ->
+                }
+                return true
+            }
+        })
     }
 }
