@@ -8,8 +8,13 @@ import com.udacity.asteroidradar.domain.Asteroid
 
 @BindingAdapter("statusIcon")
 fun ImageView.bindAsteroidStatusImage(asteroid: Asteroid) {
-    if (asteroid.isPotentiallyHazardous) setImageResource(R.drawable.ic_status_potentially_hazardous)
-    else setImageResource(R.drawable.ic_status_normal)
+    contentDescription = if (asteroid.isPotentiallyHazardous) {
+        setImageResource(R.drawable.ic_status_potentially_hazardous)
+        context.getString(R.string.potentially_hazardous_asteroid_image)
+    } else {
+        setImageResource(R.drawable.ic_status_normal)
+        context.getString(R.string.not_hazardous_asteroid_image)
+    }
 }
 
 @BindingAdapter("asteroidStatusImage")
