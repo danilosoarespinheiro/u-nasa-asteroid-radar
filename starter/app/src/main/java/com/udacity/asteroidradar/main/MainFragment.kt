@@ -41,6 +41,7 @@ class MainFragment : Fragment() {
             it?.let {
                 if (it.mediaType == MEDIA_TYPE) {
                     Picasso.with(context).load(it.url).into(binding.activityMainImageOfTheDay)
+                    binding.activityMainImageOfTheDay.contentDescription = it.title
                 }
             }
         }

@@ -29,7 +29,7 @@
             android:textColor="@color/default_text_color"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tool:text="XXXX (XXXX XXXX)" />
+            tool:text="@string/asteroid_name_placeholder" />
 
         <TextView
             android:id="@+id/tv_date"
@@ -43,7 +43,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_name"
-            tool:text="XXXX-XX-XX" />
+            tool:text="@string/close_approach_date_placeholder" />
 
         <ImageView
             android:id="@+id/tv_status"

@@ -30,22 +30,19 @@ class AsteroidsListAdapter : RecyclerView.Adapter<AsteroidsListAdapter.AsteroidV
 
     override fun getItemCount(): Int = asteroids.size
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun updateAsteroids(asteroids: List<Asteroid>) {
+
+    private fun updateAsteroids(asteroids: List<Asteroid>) {
         this.asteroids = asteroids
         notifyDataSetChanged()
     }
 
-
     @RequiresApi(Build.VERSION_CODES.O)
-
     fun getTodayAsteroids(asteroidsList: List<Asteroid>) {
         val today = LocalDate.now()
         asteroidsList.filter { asteroid ->
             LocalDate.parse(asteroid.closeApproachDate) == today
         }
-        this.asteroids = asteroidsList
-        notifyDataSetChanged()
+        updateAsteroids(asteroidsList)
     }
 
     inner class AsteroidViewHolder(private val binding: ItemAsteroidBinding) :

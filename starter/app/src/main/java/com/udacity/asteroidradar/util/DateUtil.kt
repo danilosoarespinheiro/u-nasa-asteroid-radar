@@ -1,6 +1,7 @@
 package com.udacity.asteroidradar.util
 
 import android.annotation.SuppressLint
+import com.udacity.asteroidradar.util.Constants.API_QUERY_DATE_FORMAT
 import com.udacity.asteroidradar.util.Constants.DEFAULT_END_DATE_DAYS
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -20,15 +21,11 @@ class DateUtil {
 
         @SuppressLint("WeekBasedYear")
         private fun getDay(time: Long): String =
-            SimpleDateFormat(Constants.API_QUERY_DATE_FORMAT,
-                Locale.getDefault()).format(time)
+            SimpleDateFormat(API_QUERY_DATE_FORMAT, Locale.getDefault()).format(time)
 
-        fun getTodayDate(): String {
-            return getDay(System.currentTimeMillis())
-        }
+        fun getTodayDate() = getDay(System.currentTimeMillis())
 
-        fun getDaysTo(days: Long): String {
-            return getDay(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(days))
-        }
+        fun getDaysTo(days: Long) =
+            getDay(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(days))
     }
 }
