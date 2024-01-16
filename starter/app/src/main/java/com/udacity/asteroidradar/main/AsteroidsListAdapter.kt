@@ -1,15 +1,12 @@
 package com.udacity.asteroidradar.main
 
 import android.annotation.SuppressLint
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.udacity.asteroidradar.databinding.ItemAsteroidBinding
 import com.udacity.asteroidradar.domain.Asteroid
-import java.time.LocalDate
 
 @SuppressLint("NotifyDataSetChanged")
 class AsteroidsListAdapter : RecyclerView.Adapter<AsteroidsListAdapter.AsteroidViewHolder>() {

@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.udacity.asteroidradar.database.AsteroidsDatabase
+import com.udacity.asteroidradar.domain.Asteroid
 import com.udacity.asteroidradar.domain.PictureOfDay
 import com.udacity.asteroidradar.repository.AsteroidRepository
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +18,8 @@ class MainViewModel(application: android.app.Application) : AndroidViewModel(app
     private val repository = AsteroidRepository(database)
     private val _pictureOfTheDay = MutableLiveData<PictureOfDay>()
 
-    val asteroids = repository.asteroids
+    private val _currentAsteroids = MutableLiveData<List<Asteroid>>()
+    val currentAsteroids: LiveData<List<Asteroid>> get() = _currentAsteroids
     val pictureOfTheDay: LiveData<PictureOfDay> get() = _pictureOfTheDay
 
     companion object {
@@ -28,6 +30,27 @@ class MainViewModel(application: android.app.Application) : AndroidViewModel(app
     init {
         refreshAsteroids()
         getPictureOfTheDay()
+    }
+
+    fun asteroidsAll(){
+        val asteroidsLiveData = repository.asteroids
+        asteroidsLiveData.observeForever { asteroidsList ->
+            _currentAsteroids.postValue(asteroidsList)
+        }
+    }
+
+    fun asteroidsWeek(){
+        val asteroidsLiveData = repository.asteroidsOfWeek
+        asteroidsLiveData.observeForever { asteroidsList ->
+            _currentAsteroids.postValue(asteroidsList)
+        }
+    }
+
+    fun asteroidsToday(){
+        val asteroidsLiveData = repository.asteroidsOfToday
+        asteroidsLiveData.observeForever { asteroidsList ->
+            _currentAsteroids.postValue(asteroidsList)
+        }
     }
 
     private fun getPictureOfTheDay() = viewModelScope.launch(Dispatchers.Main) {

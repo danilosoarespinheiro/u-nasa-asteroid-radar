@@ -38,7 +38,8 @@
                 android:padding="@dimen/medium_padding"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/activity_main_image_of_the_day">
+                app:layout_constraintTop_toBottomOf="@+id/activity_main_image_of_the_day"
+                tools:ignore="NestedScrolling">
 
                 <LinearLayout
                     android:layout_width="match_parent"
