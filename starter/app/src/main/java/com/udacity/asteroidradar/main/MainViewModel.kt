@@ -32,26 +32,13 @@ class MainViewModel(application: android.app.Application) : AndroidViewModel(app
         getPictureOfTheDay()
     }
 
-    fun asteroidsAll(){
-        val asteroidsLiveData = repository.asteroids
-        asteroidsLiveData.observeForever { asteroidsList ->
-            _currentAsteroids.postValue(asteroidsList)
-        }
-    }
+    fun asteroidsAll() = repository.asteroids.observeForever { postValue(it) }
 
-    fun asteroidsWeek(){
-        val asteroidsLiveData = repository.asteroidsOfWeek
-        asteroidsLiveData.observeForever { asteroidsList ->
-            _currentAsteroids.postValue(asteroidsList)
-        }
-    }
+    fun asteroidsWeek() = repository.asteroidsOfWeek.observeForever { postValue(it) }
 
-    fun asteroidsToday(){
-        val asteroidsLiveData = repository.asteroidsOfToday
-        asteroidsLiveData.observeForever { asteroidsList ->
-            _currentAsteroids.postValue(asteroidsList)
-        }
-    }
+    fun asteroidsToday() = repository.asteroidsOfToday.observeForever { postValue(it) }
+
+    private fun postValue(list: List<Asteroid>) = _currentAsteroids.postValue(list)
 
     private fun getPictureOfTheDay() = viewModelScope.launch(Dispatchers.Main) {
         try {

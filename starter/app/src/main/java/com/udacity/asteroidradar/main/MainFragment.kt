@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import com.squareup.picasso.Picasso
 import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
@@ -37,12 +38,16 @@ class MainFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         addMenu()
-        val adapter = AsteroidsListAdapter()
+
+        val adapter = AsteroidListAdapter(AsteroidListAdapter.AsteroidItemOnClickListener {
+            val action = MainFragmentDirections.actionShowDetail(it)
+            binding.root.findNavController().navigate(action)
+        })
         binding.asteroidRecycler.adapter = adapter
 
         viewModel.asteroidsAll()
 
-        viewModel.currentAsteroids.observe(viewLifecycleOwner) { adapter.updateAsteroids(it) }
+        viewModel.currentAsteroids.observe(viewLifecycleOwner) { adapter.adapterSubmitList(it) }
 
         viewModel.pictureOfTheDay.observe(viewLifecycleOwner) {
             it?.let {
